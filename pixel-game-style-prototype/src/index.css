@@ -1394,6 +1394,22 @@ html {
   animation: 1.5s ease-in-out infinite neon-pulse-pink;
 }
 
+.neon-glow-green {
+  animation: 1.5s ease-in-out infinite neon-pulse-green;
+}
+
+.neon-glow-yellow {
+  animation: 1.5s ease-in-out infinite neon-pulse-yellow;
+}
+
+.neon-glow-red {
+  animation: 1.5s ease-in-out infinite neon-pulse-red;
+}
+
+.neon-glow-brown {
+  animation: 1.5s ease-in-out infinite neon-pulse-brown;
+}
+
 @keyframes neon-pulse-orange {
   0%, 100% {
     filter: drop-shadow(0 0 5px #ff6b35) drop-shadow(0 0 10px #ff6b35) drop-shadow(0 0 20px #ff6b35);
@@ -1411,6 +1427,118 @@ html {
 
   50% {
     filter: drop-shadow(0 0 10px #ff1493) drop-shadow(0 0 20px #ff1493) drop-shadow(0 0 30px #ff1493);
+  }
+}
+
+@keyframes neon-pulse-green {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px #567d46) drop-shadow(0 0 10px #567d46) drop-shadow(0 0 20px #567d46);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px #567d46) drop-shadow(0 0 20px #567d46) drop-shadow(0 0 30px #567d46);
+  }
+}
+
+@keyframes neon-pulse-yellow {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px #8b4513) drop-shadow(0 0 10px #8b4513) drop-shadow(0 0 20px #8b4513);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px #8b4513) drop-shadow(0 0 20px #8b4513) drop-shadow(0 0 30px #8b4513);
+  }
+}
+
+@keyframes neon-pulse-red {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px #dc143c) drop-shadow(0 0 10px #dc143c) drop-shadow(0 0 20px #dc143c);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px #dc143c) drop-shadow(0 0 20px #dc143c) drop-shadow(0 0 30px #dc143c);
+  }
+}
+
+@keyframes neon-pulse-brown {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px #d4af37) drop-shadow(0 0 10px #d4af37) drop-shadow(0 0 20px #d4af37);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px #d4af37) drop-shadow(0 0 20px #d4af37) drop-shadow(0 0 30px #d4af37);
+  }
+}
+
+/* Observatory Room Specific Styles */
+.neon-glow-blue {
+  animation: 1.5s ease-in-out infinite neon-pulse-blue;
+}
+
+.neon-glow-purple {
+  animation: 1.5s ease-in-out infinite neon-pulse-purple;
+}
+
+@keyframes neon-pulse-blue {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px #4a9eff) drop-shadow(0 0 10px #4a9eff) drop-shadow(0 0 20px #4a9eff);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px #4a9eff) drop-shadow(0 0 20px #4a9eff) drop-shadow(0 0 30px #4a9eff);
+  }
+}
+
+@keyframes neon-pulse-purple {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px #a855f7) drop-shadow(0 0 10px #a855f7) drop-shadow(0 0 20px #a855f7);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px #a855f7) drop-shadow(0 0 20px #a855f7) drop-shadow(0 0 30px #a855f7);
+  }
+}
+
+/* Attic Room Specific Styles */
+.neon-glow-gold {
+  animation: 1.5s ease-in-out infinite neon-pulse-gold;
+}
+
+.neon-glow-cyan {
+  animation: 1.5s ease-in-out infinite neon-pulse-cyan;
+}
+
+@keyframes neon-pulse-gold {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px #ffd700) drop-shadow(0 0 10px #ffd700) drop-shadow(0 0 20px #ffd700);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px #ffd700) drop-shadow(0 0 20px #ffd700) drop-shadow(0 0 30px #ffd700);
+  }
+}
+
+@keyframes neon-pulse-cyan {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px #00ced1) drop-shadow(0 0 10px #00ced1) drop-shadow(0 0 20px #00ced1);
+  }
+
+  50% {
+    filter: drop-shadow(0 0 10px #00ced1) drop-shadow(0 0 20px #00ced1) drop-shadow(0 0 30px #00ced1);
+  }
+}
+
+/* Star Twinkling Animation */
+.star-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
   }
 }
 
