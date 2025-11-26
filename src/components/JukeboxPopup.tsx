@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { Play, Pause, SkipForward, SkipBack, X, Volume2 } from 'lucide-react';
 
 interface JukeboxPopupProps {
@@ -9,7 +9,11 @@ interface Song {
   id: number;
   title: string;
   artist: string;
+  audioUrl: string;
 }
+
+// 음악 파일 동적 로드
+const musicFiles = import.meta.glob('/src/assets/music/*.mp3', { eager: true, as: 'url' });
 
 export function JukeboxPopup({ onClose }: JukeboxPopupProps) {
   const [position, setPosition] = useState({ x: window.innerWidth - 420, y: 100 });
@@ -18,14 +22,25 @@ export function JukeboxPopup({ onClose }: JukeboxPopupProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSongIndex, setCurrentSongIndex] = useState(0);
   const popupRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
 
-  const playlist: Song[] = [
-    { id: 1, title: "픽셀 카페의 오후", artist: "8bit Orchestra" },
-    { id: 2, title: "도트 세계의 산책", artist: "Chiptune Masters" },
-    { id: 3, title: "따뜻한 벽난로", artist: "Retro Vibes" },
-    { id: 4, title: "오래된 사진첩", artist: "Pixel Nostalgia" },
-    { id: 5, title: "책과 함께하는 시간", artist: "8bit Lounge" },
-  ];
+  // 동적으로 재생목록 생성
+  const playlist: Song[] = useMemo(() => {
+    const songs = Object.entries(musicFiles).map(([path, url], index) => {
+      // 파일명에서 제목 추출 (경로에서 파일명만 추출하고 확장자 제거)
+      const fileName = path.split('/').pop()?.replace('.mp3', '') || `Song ${index + 1}`;
+
+      return {
+        id: index + 1,
+        title: fileName,
+        artist: 'Unknown Artist',
+        audioUrl: url as string,
+      };
+    });
+
+    // 파일명으로 정렬
+    return songs.sort((a, b) => a.title.localeCompare(b.title));
+  }, []);
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).closest('.no-drag')) return;
@@ -70,21 +85,62 @@ export function JukeboxPopup({ onClose }: JukeboxPopupProps) {
   }, [isDragging, dragOffset]);
 
   const handlePlayPause = () => {
-    setIsPlaying(!isPlaying);
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play().catch((error) => {
+          console.error('재생 실패:', error);
+        });
+      }
+      setIsPlaying(!isPlaying);
+    }
   };
 
   const handleNext = () => {
     setCurrentSongIndex((prev) => (prev + 1) % playlist.length);
+    setIsPlaying(true);
   };
 
   const handlePrevious = () => {
     setCurrentSongIndex((prev) => (prev - 1 + playlist.length) % playlist.length);
+    setIsPlaying(true);
   };
 
   const handleSongClick = (index: number) => {
     setCurrentSongIndex(index);
     setIsPlaying(true);
   };
+
+  const handleAudioEnded = () => {
+    handleNext();
+  };
+
+  // 곡 변경 시 처리
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.load();
+      if (isPlaying) {
+        audioRef.current.play().catch((error) => {
+          console.error('재생 실패:', error);
+        });
+      }
+    }
+  }, [currentSongIndex]);
+
+  // 재생 상태 변경 시 처리
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play().catch((error) => {
+          console.error('재생 실패:', error);
+          setIsPlaying(false);
+        });
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isPlaying]);
 
   return (
     <div
@@ -181,6 +237,14 @@ export function JukeboxPopup({ onClose }: JukeboxPopupProps) {
       <div className="bg-[#8b7355] text-white text-center py-2 text-[12px] border-t-4 border-black">
         상점과 방 꾸미기에서 플레이리스트 변경 가능
       </div>
+
+      {/* Hidden Audio Element */}
+      <audio
+        ref={audioRef}
+        src={playlist[currentSongIndex].audioUrl}
+        onEnded={handleAudioEnded}
+        preload="auto"
+      />
     </div>
   );
 }
